@@ -8,7 +8,7 @@ common prefix defined in `app/core/config.py`.
 
 from fastapi import APIRouter
 
-from app.api.endpoints import shipments
+from app.api.endpoints import dashboard, shipments
 
 # Main API router that groups all sub-routers
 api_router = APIRouter()
@@ -18,6 +18,13 @@ api_router.include_router(
     shipments.router,
     prefix="/shipments",
     tags=["shipments"],
+)
+
+# --- Dashboard endpoints ---
+api_router.include_router(
+    dashboard.router,
+    prefix="/dashboard",
+    tags=["dashboard"],
 )
 
 # Future routers will be registered here, e.g.:
