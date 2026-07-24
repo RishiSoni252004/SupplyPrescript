@@ -4,6 +4,9 @@
  * Uses the useDashboardSummary hook to fetch KPI data and
  * displays it using SummaryCard components. Includes loading
  * and error states.
+ *
+ * The analytics section uses useAnalyticsData to fetch chart data
+ * and renders 4 Recharts visualizations in a responsive grid.
  */
 
 import React from 'react';
@@ -13,14 +16,30 @@ import {
   HiOutlineCheckCircle,
   HiOutlineCurrencyDollar,
 } from 'react-icons/hi';
-import SummaryCard from '../components/SummaryCard';
+import SummaryCard from '../components/cards/SummaryCard';
 import Spinner from '../components/Spinner';
 import ErrorMessage from '../components/ErrorMessage';
 import useDashboardSummary from '../hooks/useDashboardSummary';
+import useAnalyticsData from '../hooks/useAnalyticsData';
+import {
+  ShipmentStatusChart,
+  TransportModeChart,
+  SupplierDistributionChart,
+  MonthlyTrendChart,
+} from '../components/charts';
+import ChartGrid from '../components/layout/ChartGrid';
+import ChartSkeleton from '../components/layout/ChartSkeleton';
+import EmptyState from '../components/layout/EmptyState';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const { data, loading, error, refetch } = useDashboardSummary();
+  const {
+    data: analyticsData,
+    loading: analyticsLoading,
+    error: analyticsError,
+    refetch: analyticsRefetch,
+  } = useAnalyticsData();
 
   if (loading) {
     return (
@@ -40,8 +59,19 @@ const Dashboard = () => {
 
   if (!data) return null;
 
+  /**
+   * Check if all analytics datasets are empty.
+   */
+  const isAnalyticsEmpty =
+    analyticsData &&
+    analyticsData.shipmentStatus.every((s) => s.value === 0) &&
+    analyticsData.transportMode.length === 0 &&
+    analyticsData.supplierDistribution.length === 0 &&
+    analyticsData.monthlyTrend.length === 0;
+
   return (
     <div className="dashboard-content">
+      {/* --- KPI Section --- */}
       <div className="dashboard-header">
         <h2 className="dashboard-title">Overview</h2>
         <p className="dashboard-subtitle">Key Performance Indicators</p>
@@ -87,11 +117,31 @@ const Dashboard = () => {
         />
       </div>
 
-      <div className="dashboard-extra">
-        {/* Placeholder for future charts or tables */}
-        <div className="placeholder-card">
-          <p>More detailed analytics and visualizations coming soon.</p>
+      {/* --- Analytics Charts Section --- */}
+      <div className="analytics-section">
+        <div className="dashboard-header">
+          <h2 className="dashboard-title">Analytics</h2>
+          <p className="dashboard-subtitle">Visual insights from your supply chain data</p>
         </div>
+
+        {analyticsLoading && <ChartSkeleton />}
+
+        {analyticsError && !analyticsLoading && (
+          <ErrorMessage message={analyticsError} onRetry={analyticsRefetch} />
+        )}
+
+        {isAnalyticsEmpty && !analyticsLoading && !analyticsError && (
+          <EmptyState />
+        )}
+
+        {analyticsData && !isAnalyticsEmpty && !analyticsLoading && !analyticsError && (
+          <ChartGrid>
+            <ShipmentStatusChart data={analyticsData.shipmentStatus} />
+            <TransportModeChart data={analyticsData.transportMode} />
+            <SupplierDistributionChart data={analyticsData.supplierDistribution} />
+            <MonthlyTrendChart data={analyticsData.monthlyTrend} />
+          </ChartGrid>
+        )}
       </div>
     </div>
   );

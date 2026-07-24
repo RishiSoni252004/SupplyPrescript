@@ -32,20 +32,46 @@
   margin-bottom: 32px;
 }
 
-.dashboard-extra {
-  margin-top: 32px;
+/* --- Analytics Section --- */
+.analytics-section {
+  margin-top: 16px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-color);
 }
 
-.placeholder-card {
+/* --- Shared Chart Tooltip --- */
+.chart-tooltip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
   background: var(--card-bg);
-  border: 1px dashed var(--border-color);
-  border-radius: 16px;
-  padding: 48px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-sans);
+  font-size: 13px;
 }
 
+.chart-tooltip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chart-tooltip-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.chart-tooltip-value {
+  color: var(--text-primary);
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .dashboard-content {
     padding: 20px;
@@ -54,5 +80,10 @@
   .kpi-grid {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .analytics-section {
+    margin-top: 8px;
+    padding-top: 24px;
   }
 }

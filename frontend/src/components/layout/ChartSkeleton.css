@@ -1,0 +1,115 @@
+/* ============================================================
+   Chart Skeleton Loading Styles
+   ============================================================ */
+
+.chart-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.skeleton-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.skeleton-card--full-width {
+  grid-column: 1 / -1;
+}
+
+.skeleton-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.skeleton-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--hover-bg);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeleton-title {
+  width: 120px;
+  height: 14px;
+  border-radius: 6px;
+  background: var(--hover-bg);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+  animation-delay: 0.1s;
+}
+
+.skeleton-subtitle {
+  width: 80px;
+  height: 10px;
+  border-radius: 4px;
+  background: var(--hover-bg);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+  animation-delay: 0.2s;
+}
+
+.skeleton-body {
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skeleton-chart {
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  background: var(--hover-bg);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .chart-skeleton-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .skeleton-card--full-width {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-skeleton-grid {
+    gap: 16px;
+  }
+
+  .skeleton-card {
+    padding: 20px;
+  }
+
+  .skeleton-body {
+    min-height: 220px;
+  }
+
+  .skeleton-chart {
+    height: 160px;
+  }
+}
