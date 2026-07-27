@@ -15,6 +15,7 @@ from app.core.config import settings
 from app.core.logging import setup_logging
 from app.api.router import api_router
 from app.database.database import Base, engine
+from app.ml.model_loader import ml_models
 
 # Import all models so SQLAlchemy registers them with Base.metadata
 # before `create_all` is called.
@@ -35,6 +36,15 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Create tables defined in Base.metadata (safe to call repeatedly —
     # existing tables are left untouched).
     Base.metadata.create_all(bind=engine)
+    
+    # Load ML models into memory
+    import logging
+    logger = logging.getLogger(__name__)
+    try:
+        ml_models.load_models()
+    except Exception as e:
+        logger.error(f"Failed to load ML models on startup: {e}")
+        
     yield
 
 

@@ -3,3 +3,7 @@ uvicorn[standard]
 pydantic
 pydantic-settings
 sqlalchemy
+pandas
+scikit-learn
+xgboost
+joblib
