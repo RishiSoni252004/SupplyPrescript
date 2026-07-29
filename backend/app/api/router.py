@@ -8,7 +8,7 @@ common prefix defined in `app/core/config.py`.
 
 from fastapi import APIRouter
 
-from app.api.endpoints import dashboard, shipments, predictions
+from app.api.endpoints import dashboard, shipments, predictions, recommendations
 
 # Main API router that groups all sub-routers
 api_router = APIRouter()
@@ -32,4 +32,11 @@ api_router.include_router(
     predictions.router,
     prefix="/predictions",
     tags=["predictions"],
+)
+
+# --- Recommendation endpoints ---
+api_router.include_router(
+    recommendations.router,
+    prefix="/recommendations",
+    tags=["recommendations"],
 )
