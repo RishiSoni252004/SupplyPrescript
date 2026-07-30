@@ -1,0 +1,68 @@
+.recent-shipments-container {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-top: 2rem;
+}
+
+.recent-shipments-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+  color: #1f2937;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.recent-shipments-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.recent-shipments-table th {
+  background-color: #f9fafb;
+  color: #6b7280;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.recent-shipments-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.recent-shipments-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.status-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-ontime {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-delayed {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.recent-empty {
+  padding: 2rem;
+  text-align: center;
+  color: #6b7280;
+}

@@ -5,9 +5,15 @@
  */
 
 import React, { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from './components/Sidebar';
 import TopNav from './components/TopNav';
 import Dashboard from './pages/Dashboard';
+import ShipmentList from './pages/shipment/ShipmentList';
+import ShipmentForm from './pages/shipment/ShipmentForm';
+import PredictionPage from './pages/prediction/PredictionPage';
 import './App.css';
 
 function App() {
@@ -37,9 +43,17 @@ function App() {
         <TopNav onMenuToggle={toggleSidebar} />
         
         <main className="main-content">
-          <Dashboard />
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/shipments" element={<ShipmentList />} />
+            <Route path="/shipments/add" element={<ShipmentForm />} />
+            <Route path="/shipments/edit/:id" element={<ShipmentForm />} />
+            <Route path="/prediction" element={<PredictionPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </main>
       </div>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }

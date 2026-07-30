@@ -30,6 +30,7 @@ import {
 import ChartGrid from '../components/layout/ChartGrid';
 import ChartSkeleton from '../components/layout/ChartSkeleton';
 import EmptyState from '../components/layout/EmptyState';
+import RecentShipmentsTable from '../components/dashboard/RecentShipmentsTable';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -143,6 +144,9 @@ const Dashboard = () => {
           </ChartGrid>
         )}
       </div>
+
+      {/* --- Recent Shipments Section --- */}
+      <RecentShipmentsTable />
     </div>
   );
 };

@@ -6,21 +6,18 @@
  */
 
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   HiOutlineViewGrid,
   HiOutlineTruck,
-  HiOutlineCog,
-  HiOutlineSupport,
 } from 'react-icons/hi';
-import { HiOutlineCube } from 'react-icons/hi2';
+import { HiOutlineChartBar } from 'react-icons/hi2';
 import './Sidebar.css';
 
 const navItems = [
-  { icon: <HiOutlineViewGrid />, label: 'Dashboard', active: true },
-  { icon: <HiOutlineTruck />, label: 'Shipments', active: false },
-  { icon: <HiOutlineCube />, label: 'Inventory', active: false },
-  { icon: <HiOutlineCog />, label: 'Settings', active: false },
-  { icon: <HiOutlineSupport />, label: 'Support', active: false },
+  { icon: <HiOutlineViewGrid />, label: 'Dashboard', path: '/' },
+  { icon: <HiOutlineTruck />, label: 'Shipments', path: '/shipments' },
+  { icon: <HiOutlineChartBar />, label: 'Prediction & Recs', path: '/prediction' },
 ];
 
 const Sidebar = () => {
@@ -37,14 +34,14 @@ const Sidebar = () => {
         <ul className="nav-list">
           {navItems.map((item) => (
             <li key={item.label}>
-              <a
-                href="#"
-                className={`nav-link ${item.active ? 'nav-link--active' : ''}`}
-                id={`nav-${item.label.toLowerCase()}`}
+              <NavLink
+                to={item.path}
+                className={({ isActive }) => `nav-link ${isActive ? 'nav-link--active' : ''}`}
+                id={`nav-${item.label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
               >
                 <span className="nav-icon">{item.icon}</span>
                 <span className="nav-label">{item.label}</span>
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>

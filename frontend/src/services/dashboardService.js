@@ -62,3 +62,8 @@ export const fetchAllShipments = async (limit = 500) => {
   });
   return response.data;
 };
+
+export const fetchRecentShipments = async () => {
+  const response = await api.get('/dashboard/recent-shipments');
+  return response.data;
+};
