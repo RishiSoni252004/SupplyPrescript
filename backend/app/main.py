@@ -20,7 +20,7 @@ from app.ml.model_loader import ml_models
 # Import all models so SQLAlchemy registers them with Base.metadata
 # before `create_all` is called.
 import app.models.shipment  # noqa: F401
-
+import app.models.decision  # noqa: F401
 # Initialize standard logging
 setup_logging()
 

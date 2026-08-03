@@ -14,6 +14,7 @@ import Dashboard from './pages/Dashboard';
 import ShipmentList from './pages/shipment/ShipmentList';
 import ShipmentForm from './pages/shipment/ShipmentForm';
 import PredictionPage from './pages/prediction/PredictionPage';
+import AnalyticsDashboard from './pages/analytics/AnalyticsDashboard';
 import './App.css';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
             <Route path="/shipments/add" element={<ShipmentForm />} />
             <Route path="/shipments/edit/:id" element={<ShipmentForm />} />
             <Route path="/prediction" element={<PredictionPage />} />
+            <Route path="/analytics" element={<AnalyticsDashboard />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

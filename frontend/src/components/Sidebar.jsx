@@ -18,6 +18,7 @@ const navItems = [
   { icon: <HiOutlineViewGrid />, label: 'Dashboard', path: '/' },
   { icon: <HiOutlineTruck />, label: 'Shipments', path: '/shipments' },
   { icon: <HiOutlineChartBar />, label: 'Prediction & Recs', path: '/prediction' },
+  { icon: <HiOutlineChartBar />, label: 'Analytics', path: '/analytics' },
 ];
 
 const Sidebar = () => {
