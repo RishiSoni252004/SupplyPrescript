@@ -22,6 +22,14 @@ def execute_decision(payload: DecisionCreate, db: Session = Depends(get_db)):
         logger.error(f"Error saving decision: {e}")
         raise HTTPException(status_code=500, detail="Could not save decision.")
 
+@router.get("/decisions", response_model=List[DecisionResponse])
+def get_decisions(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    """
+    Retrieves a list of all executed decisions.
+    """
+    from app.models.decision import Decision
+    return db.query(Decision).order_by(Decision.execution_time.desc()).offset(skip).limit(limit).all()
+
 @router.get("/dashboard", response_model=AnalyticsSummary)
 def get_dashboard_analytics(db: Session = Depends(get_db)):
     """

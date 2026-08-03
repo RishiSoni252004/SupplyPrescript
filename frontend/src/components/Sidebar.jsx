@@ -19,6 +19,8 @@ const navItems = [
   { icon: <HiOutlineTruck />, label: 'Shipments', path: '/shipments' },
   { icon: <HiOutlineChartBar />, label: 'Prediction & Recs', path: '/prediction' },
   { icon: <HiOutlineChartBar />, label: 'Analytics', path: '/analytics' },
+  { icon: <HiOutlineViewGrid />, label: 'Decision History', path: '/decisions' },
+  { icon: <HiOutlineViewGrid />, label: 'Settings', path: '/settings' },
 ];
 
 const Sidebar = () => {

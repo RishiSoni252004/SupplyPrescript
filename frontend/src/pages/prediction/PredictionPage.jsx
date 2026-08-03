@@ -3,6 +3,8 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { predictDelay } from '../../services/predictionService';
 import { getRecommendations } from '../../services/recommendationService';
+import { executeDecision } from '../../services/analyticsService';
+import Skeleton from '../../components/Skeleton';
 import Spinner from '../../components/Spinner';
 import './PredictionPage.css';
 
@@ -29,6 +31,7 @@ const PredictionPage = () => {
   // Results state
   const [predictionResult, setPredictionResult] = useState(null);
   const [recommendationResult, setRecommendationResult] = useState(null);
+  const [userNotes, setUserNotes] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -87,12 +90,24 @@ const PredictionPage = () => {
     }
   };
 
-  const handleExecute = () => {
-    // Mocking execution
-    toast.success('Decision executed successfully! Generating new shipment plan...');
-    setTimeout(() => {
-      navigate('/shipments');
-    }, 2000);
+  const handleExecute = async () => {
+    try {
+      const decisionData = {
+        shipment_id: 1, // Placeholder: in a real flow you'd select the shipment ID
+        selected_option: recommendationResult.best_option,
+        predicted_cost: recommendationResult.estimated_cost,
+        predicted_delay: recommendationResult.estimated_delay,
+        user_notes: userNotes,
+        status: 'executed'
+      };
+      
+      await executeDecision(decisionData);
+      toast.success('Decision executed successfully!');
+      navigate('/decisions');
+    } catch (error) {
+      toast.error('Failed to execute decision.');
+      console.error(error);
+    }
   };
 
   return (
@@ -183,7 +198,10 @@ const PredictionPage = () => {
         <div className="results-section">
           {loading && (
             <div className="box-card loading-card">
-              <Spinner message="Running ML Pipeline..." />
+              <Skeleton type="title" />
+              <Skeleton type="text" />
+              <Skeleton type="text" />
+              <Skeleton type="card" style={{ marginTop: '1rem' }} />
             </div>
           )}
 
@@ -218,6 +236,17 @@ const PredictionPage = () => {
                 <div className="rec-metrics">
                   <div><strong>Est. Cost:</strong> ${recommendationResult.estimated_cost.toFixed(2)}</div>
                   <div><strong>Est. Delay:</strong> {recommendationResult.estimated_delay} days</div>
+                </div>
+
+                <div className="form-group" style={{ marginTop: '1rem' }}>
+                  <label>User Notes (Optional)</label>
+                  <textarea 
+                    className="form-input" 
+                    rows="2" 
+                    value={userNotes} 
+                    onChange={(e) => setUserNotes(e.target.value)} 
+                    placeholder="Justify this decision..."
+                  />
                 </div>
 
                 <button onClick={handleExecute} className="btn btn-primary mt-4 w-full execute-btn">

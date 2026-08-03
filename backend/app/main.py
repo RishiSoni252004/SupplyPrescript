@@ -21,6 +21,9 @@ from app.ml.model_loader import ml_models
 # before `create_all` is called.
 import app.models.shipment  # noqa: F401
 import app.models.decision  # noqa: F401
+import app.models.prediction_history  # noqa: F401
+import app.models.feedback  # noqa: F401
+import app.models.analytics_snapshot  # noqa: F401
 # Initialize standard logging
 setup_logging()
 

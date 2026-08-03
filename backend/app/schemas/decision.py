@@ -7,6 +7,7 @@ class DecisionBase(BaseModel):
     selected_option: str = Field(..., description="The option selected by the user/system")
     predicted_cost: float = Field(..., description="Predicted cost of the selected option")
     predicted_delay: float = Field(..., description="Predicted delay (days) of the selected option")
+    user_notes: Optional[str] = Field(None, description="Optional user notes or justification for the decision")
     status: Optional[str] = Field("executed", description="Status of the decision")
 
 class DecisionCreate(DecisionBase):

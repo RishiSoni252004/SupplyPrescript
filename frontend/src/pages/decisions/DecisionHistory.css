@@ -1,0 +1,33 @@
+.decisions-container {
+  padding: 2rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.decisions-header {
+  margin-bottom: 2rem;
+}
+
+.decisions-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.decisions-header p {
+  color: var(--text-secondary);
+}
+
+.decisions-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.empty-table {
+  text-align: center;
+  padding: 3rem !important;
+  color: var(--text-secondary);
+}

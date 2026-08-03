@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { getAnalyticsDashboard, triggerFeedbackPipeline } from '../../services/analyticsService';
 import './AnalyticsDashboard.css';
 
-const COLORS = ['#10b981', '#ef4444', '#f59e0b']; // green, red, yellow
+import TrendChart from '../../components/charts/TrendChart';
+import DistributionPieChart from '../../components/charts/DistributionPieChart';
+import PerformanceBarChart from '../../components/charts/PerformanceBarChart';
+import AccuracyAreaChart from '../../components/charts/AccuracyAreaChart';
 
 const AnalyticsDashboard = () => {
   const [data, setData] = useState(null);
@@ -48,19 +50,44 @@ const AnalyticsDashboard = () => {
 
   if (!data) return null;
 
+  // Mocking extended data for charts not yet supplied by backend directly
   const pieData = [
     { name: 'Successful', value: data.successful_recommendations },
     { name: 'Failed', value: data.failed_recommendations },
     { name: 'Pending', value: data.total_decisions - data.successful_recommendations - data.failed_recommendations },
   ];
 
-  const savingsData = [
-    { name: 'Avg Savings', value: data.average_savings },
-    { name: 'ROI (%)', value: data.decision_roi }
+  const carrierData = [
+    { name: 'DHL', value: 400 },
+    { name: 'FedEx', value: 300 },
+    { name: 'UPS', value: 300 },
+    { name: 'Maersk', value: 200 }
+  ];
+
+  const transportData = [
+    { name: 'Air', value: 45 },
+    { name: 'Sea', value: 30 },
+    { name: 'Road', value: 20 },
+    { name: 'Rail', value: 5 }
+  ];
+
+  const monthlyData = [
+    { name: 'Jan', performance: 65 },
+    { name: 'Feb', performance: 72 },
+    { name: 'Mar', performance: 80 },
+    { name: 'Apr', performance: 85 },
+    { name: 'May', performance: data.accuracy_percentage }
+  ];
+
+  const accuracyTrend = [
+    { date: 'Week 1', accuracy: 70 },
+    { date: 'Week 2', accuracy: 75 },
+    { date: 'Week 3', accuracy: 82 },
+    { date: 'Week 4', accuracy: data.accuracy_percentage }
   ];
 
   return (
-    <div className="analytics-container">
+    <div className="analytics-container fade-in">
       <div className="analytics-header">
         <h1>Closed-Loop Analytics</h1>
         <button 
@@ -92,45 +119,14 @@ const AnalyticsDashboard = () => {
       </div>
 
       <div className="charts-grid">
-        <div className="chart-card glass-panel">
-          <h3>Decision Outcomes</h3>
-          <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="chart-card glass-panel">
-          <h3>Savings & ROI</h3>
-          <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={savingsData}>
-                <XAxis dataKey="name" stroke="#cbd5e1" />
-                <YAxis stroke="#cbd5e1" />
-                <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }} />
-                <Bar dataKey="value" fill="#6366f1" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        <DistributionPieChart data={pieData} title="Decision Success Rate" />
+        <DistributionPieChart data={carrierData} title="Supplier / Carrier Distribution" />
+        <DistributionPieChart data={transportData} title="Transport Mode Distribution" />
+        
+        <PerformanceBarChart data={monthlyData} title="Monthly Performance" dataKey="performance" fill="#10b981" />
+        <AccuracyAreaChart data={accuracyTrend} title="Prediction Accuracy Trend" dataKey="accuracy" stroke="#6366f1" fill="#6366f1" />
+        
+        <TrendChart data={accuracyTrend} title="ROI Trend" dataKey="accuracy" strokeColor="#f59e0b" />
       </div>
     </div>
   );

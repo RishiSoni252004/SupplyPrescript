@@ -40,6 +40,8 @@ class Decision(Base):
         comment="Timestamp when the decision was executed",
     )
     
+    user_notes: str | None = Column(String(500), nullable=True, comment="Optional user notes or justification for the decision")
+    
     status: str = Column(String(50), nullable=False, default="executed", comment="Status of the decision (e.g., executed, evaluated)")
     needs_retraining: bool = Column(Boolean, default=False, nullable=False, comment="Flag indicating if the prediction was inaccurate enough to require retraining")
 
