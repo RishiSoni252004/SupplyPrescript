@@ -15,6 +15,11 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 def train_model(data_path="backend/data/shipments.csv", models_dir="backend/models"):
+    """
+    Trains the XGBoost model for shipment delay prediction.
+    Loads data, preprocesses it, trains the model, logs evaluation metrics,
+    and saves the artifacts to the specified directory.
+    """
     try:
         # 1. Load data
         logger.info(f"Loading data from {data_path}...")
