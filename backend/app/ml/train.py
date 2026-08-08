@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import joblib
 from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import (
     accuracy_score, precision_score, recall_score,
     f1_score, roc_auc_score, confusion_matrix
@@ -40,17 +40,33 @@ def train_model(data_path="backend/data/shipments.csv", models_dir="backend/mode
         X_train_processed = preprocessor.fit_transform(X_train)
         X_test_processed = preprocessor.transform(X_test)
         
-        # 5. Model Training
-        logger.info("Training XGBoost model...")
-        model = XGBClassifier(
-            n_estimators=100,
-            learning_rate=0.1,
-            max_depth=5,
+        # 5. Model Training & Hyperparameter Tuning
+        logger.info("Performing hyperparameter tuning with GridSearchCV to improve accuracy...")
+        base_model = XGBClassifier(
             random_state=42,
             use_label_encoder=False,
             eval_metric="logloss"
         )
-        model.fit(X_train_processed, y_train)
+        
+        param_grid = {
+            'n_estimators': [100, 200],
+            'learning_rate': [0.05, 0.1],
+            'max_depth': [5, 7],
+            'subsample': [0.8, 1.0],
+            'colsample_bytree': [0.8, 1.0]
+        }
+        
+        grid_search = GridSearchCV(
+            estimator=base_model,
+            param_grid=param_grid,
+            cv=3,
+            scoring='roc_auc',
+            n_jobs=-1
+        )
+        grid_search.fit(X_train_processed, y_train)
+        
+        logger.info(f"Best parameters found: {grid_search.best_params_}")
+        model = grid_search.best_estimator_
         
         # 6. Evaluation
         logger.info("Evaluating model...")
